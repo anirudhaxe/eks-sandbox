@@ -1,3 +1,4 @@
+// HPA CONFIG
 # We will use the helm provider to setup metrics server on cluster nodes to setup HPA
 data "aws_eks_cluster" "eks" {
   name = aws_eks_cluster.eks.name

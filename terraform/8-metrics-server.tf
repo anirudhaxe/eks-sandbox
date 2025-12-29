@@ -1,3 +1,4 @@
+// HPA CONFIG
 // metrics server installed using helm chat for HPA
 resource "helm_release" "metrics_server" {
   name = "metrics-server"
