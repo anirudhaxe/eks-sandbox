@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp
+  namespace: lbc-2
+spec:
+  # Type ClusterIP
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+  selector:
+    app: myapp
