@@ -39,8 +39,8 @@ data "aws_iam_policy_document" "myapp_secrets" {
     condition {
       test     = "StringEquals"
       variable = "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub"
-      #   myapp service account and 12-example is the namespace
-      values = ["system:serviceaccount:12-example:myapp"]
+      #   myapp service account and aws-secrets-eks is the namespace
+      values = ["system:serviceaccount:aws-secrets-eks:myapp"]
     }
 
     principals {
