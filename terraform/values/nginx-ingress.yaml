@@ -1,0 +1,13 @@
+---
+controller:
+  ingressClassResource:
+    name: external-nginx
+  service:
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: external
+      service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+      service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+# Run terraform apply
+# Run kubectl get svc -n ingress
+# Run kubectl get pods -o wide -n ingress
+# Run kubectl get ingressclass
