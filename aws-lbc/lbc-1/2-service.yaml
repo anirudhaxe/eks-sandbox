@@ -1,0 +1,32 @@
+# Provisions a Layer 4 network load balancer (NLB) using AWS LBC
+---
+# Supported annotations
+# https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/service/annotations/
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp
+  namespace: lbc-1
+  annotations:
+    # To use AWS Load Balancer Controller, use the type annotation otherwise legacy cloud manager controller will be used
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+    # Using ip mode instead of instance mode to avoid routing the requests through the nodeports
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    # configure to be public with public ip address OR use internal , which will have a private ip address and accessible only within the vpc
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    # Optionally use proxy-protocol if the application needs to know the actual client source ip address otherwise it will get load balancer source ip
+    # service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: http
+  selector:
+    app: myapp
+# Run kubectl apply -f lbc-1
+# kubectl get svc -n lbc-1
+# kubectl get pods -o wide -n lbc-1
+# use curl to hit the load balancer on its external ip:
+# curl -i http://k8s-5example-..amazonaws.com:8080/about
+# kubectl delete ns lbc-1
+

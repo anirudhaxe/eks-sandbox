@@ -1,0 +1,10 @@
+# In addition to creating Load Balancers, the AWS Load Balancer Controller can also create ingresses
+# kubectl get ingressclass
+# It ships by default with ALB Ingress Class
+# In this example we create a plain ingress to expose our app
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lbc-2

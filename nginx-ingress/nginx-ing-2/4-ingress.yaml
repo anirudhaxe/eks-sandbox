@@ -1,0 +1,36 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp
+  namespace: nginx-ing-2
+  annotations:
+    # use cert manager cluster issuer for this ingress
+    cert-manager.io/cluster-issuer: http-01-production
+spec:
+  ingressClassName: external-nginx
+  rules:
+    - host: ex.myapp.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: myapp
+                port:
+                  number: 8080
+  # to secure with https additional tls section
+  tls:
+    - hosts:
+        - ex.myapp.com
+      secretName: ex-myapp-com
+# kubectl apply -f nginx-ing-2
+# kubectl get certificate -n nginx-ing-2 (check whether the certificate is ready)
+# kubectl describe certificate -n nginx-ing-2 (the certificate created certificate request custom resource which behind the scenes generated a private key and stored it in the k8s secret specified in the ingress resource)
+# kubectl describe CertificateRequest -n nginx-ing-2 (certificate request created another custom resource called Order)
+# kubectl describe Order -n nginx-ing-2 (The order created the last custom resource, Challenge)
+# kubectl describe Challenge -n nginx-ing-2
+# kubectl get ing -n nginx-ing-2 (create a cname record in the dns pointing to the nginx ingress load balancer)
+# watch -t kubectl get certificate -n nginx-ing-2
+# kubectl delete ns nginx-ing-2

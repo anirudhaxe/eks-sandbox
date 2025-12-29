@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+  namespace: aws-secrets-eks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      # use the service account with the annotation
+      serviceAccountName: myapp
+      containers:
+        - name: myapp
+          image: nginx:1.14.2
+          ports:
+            - containerPort: 80
+            # mount secrets as regular files inside the container
+          volumeMounts:
+            - name: secrets
+              mountPath: /mnt/secrets
+              readOnly: true
+            # mount secrets as env variables
+          env:
+            - name: MY_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: myapp-k8s-secret
+                  key: k8s-myusername
+            - name: MY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: myapp-k8s-secret
+                  key: k8s-mypassword
+      # create a volume from the secret class that we created earlier
+      volumes:
+        - name: secrets
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: myapp-aws-secrets
+# kubectl logs -l app.kubernetes.io/component=csi-driver -n kube-system -f
+# kubectl logs -l app.kubernetes.io/instance=secrets-store-csi-driver -n kube-system -f
+# kubectl apply -f aws-secrets-eks
+
+# kubectl get pods -n aws-secrets-eks
+
+# ssh to the pod using the following command:
+# kubectl exec -it -n aws-secrets-eks myapp-75665b-4ppbx -- bash
+
+# cat secrets from the files
+# cat /mnt/secrets/myusername
+# cat /mnt/secrets/mypassword
+
+# for env variables:
+# env
+

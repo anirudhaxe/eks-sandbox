@@ -1,0 +1,24 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp
+  namespace: nginx-ing-1
+spec:
+  ingressClassName: external-nginx
+  rules:
+    - host: ex.myapp.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: myapp
+                port:
+                  number: 8080
+# kubectl apply -f nginx-ing-1
+# kubectl get ing -n nginx-ing-1
+# curl -i --header "Host: ex.myapp.com" http://k8s-......amazonaws.com/about
+# kubectl delete ns nginx-ing-1
+

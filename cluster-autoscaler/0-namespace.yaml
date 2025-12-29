@@ -1,0 +1,6 @@
+# To check cluster autoscaler
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cluster-autoscaler

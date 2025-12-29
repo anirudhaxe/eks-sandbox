@@ -1,0 +1,34 @@
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: myapp
+  namespace: hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: myapp
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 70
+# Use kubectl apply -f hpa
+# Use watch -t kubectl get pods -n hpa
+# Use watch -t kubectl get hpa -n hpa
+# Use kubectl get svc -n hpa to get the port on which the service is running (8080 in this case)
+# Use kubectl port-forward svc/myapp 8080 -n hpa
+# Use curl "localhost:8080/api/cpu?index=44" to test the HPA
+# Use kubectl delete ns hpa
+

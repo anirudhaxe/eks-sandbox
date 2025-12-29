@@ -3,6 +3,7 @@
 - VPC
   ![VPC Architecture Diagram](public/vpc-architecture.png)
 - EKS Cluster
+
 - Autoscalers
 
 - Ingress
