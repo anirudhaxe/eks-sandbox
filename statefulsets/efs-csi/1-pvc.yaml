@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: myapp
+  namespace: efs-csi
+spec:
+  accessModes:
+    # read write many as its efs
+    - ReadWriteMany
+  storageClassName: efs
+  resources:
+    requests:
+      storage: 5Gi # Don't matter, it's elastic
