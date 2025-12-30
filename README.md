@@ -1,7 +1,20 @@
-- Add k8s + EKS icon here
+<p align="center">
+  <img src="public/k8s-logo.png" alt="Kubernetes" height="80" />
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+  <img src="public/eks-logo.webp" alt="EKS" height="80" />
+</p>
 <p align="center">Experimental Kubernetes configurations on AWS EKS</p>
 
 # Table of contents
+
+- [VPC](#vpc)
+- [EKS Cluster and Node Group](#eks-cluster-and-node-group)
+- [IAM User and IAM Role in EKS](#iam-user-and-iam-role-in-eks)
+- [Autoscalers (HPA and Cluster)](#autoscalers-hpa-and-cluster)
+- [Ingress (AWS LBC & NGINX Ingress)](#ingress-aws-lbc--nginx-ingress)
+- [CSI Drivers (EBS-CSI, EFS-CSI)](#csi-drivers-ebs-csi-efs-csi)
+- [EKS + Secrets Manager (AWS-Secrets-CSI)](#eks--secrets-manager-aws-secrets-csi)
+- [License](#license)
 
 ## VPC
 
