@@ -1,9 +1,6 @@
 <p align="center">
-  <div style="display: flex; align-items: center; justify-content: center;">
     <img src="public/k8s-logo.png" alt="Kubernetes" height="80" />
-    <span style="margin: 0 15px;">|</span>
     <img src="public/eks-logo.webp" alt="EKS" height="80" />
-  </div>
 </p>
 <p align="center">Experimental Kubernetes configurations on AWS EKS</p>
 
