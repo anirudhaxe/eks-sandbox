@@ -2,12 +2,13 @@
     <img src="public/k8s-logo.png" alt="Kubernetes" height="80" />
     <img src="public/eks-logo.webp" alt="EKS" height="80" />
 </p>
-<p align="center">Experimental Kubernetes configurations on AWS EKS</p>
+<p align="center">Experimental Kubernetes manifests on AWS EKS</p>
 
-This repository contains Terraform configurations and Kubernetes manifests for setting up and managing AWS EKS clusters, including networking, autoscaling, ingress controllers, CSI drivers, and secrets management.
+This repository contains Terraform configurations and Kubernetes manifests for setting up and managing AWS EKS clusters, including architecture, networking, autoscaling, ingress controllers, CSI drivers, and secrets management.
 
 # Table of contents
 
+- [Architecture](#architecture)
 - [VPC](#vpc)
 - [EKS Cluster and Node Group](#eks-cluster-and-node-group)
 - [IAM User and IAM Role in EKS](#iam-user-and-iam-role-in-eks)
@@ -16,6 +17,25 @@ This repository contains Terraform configurations and Kubernetes manifests for s
 - [CSI Drivers (EBS-CSI, EFS-CSI)](#csi-drivers-ebs-csi-efs-csi)
 - [EKS + Secrets Manager (AWS-Secrets-CSI)](#eks--secrets-manager-aws-secrets-csi)
 - [License](#license)
+
+## Architecture
+
+![Kubernetes Architecture Diagram](public/k8s-architecture.png)
+
+### Control plane components
+
+- **etcd database** - K8s uses it to store all it state such as deployment specifications, how many replicas of each pod it needs to run.
+- **scheduler** - Watch newly created pods and assign them to the nodes based on the available CPU, memory and port requirements.
+- **controller manager** - Combines many different controllers, its basically a reconcillation loop (observes the actual state - compares to desired state - adjusts the actual state to match desired state).
+- **cloud controller manager (legacy)** - Part of k8s source code (now deprecated), was originally created to integrate different clouds. Now cloud providers have started to create their own external controllers to deal with cloud specific logic.
+- **API server (stateless)** - Manages authentication, authorization and API requests from kubectl cli.
+
+### Node components
+
+- **kubelet** - Responsible for running containers defined in the pod spec.
+- **kube proxy** - Network proxy that allows communication to the pods from different networks - inside or outside of the k8s cluster.
+
+---
 
 ## VPC
 
